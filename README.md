@@ -9,11 +9,13 @@ This repository contains Kubernetes YAML files, commands, and detailed explanati
 #This command lists all DaemonSets across all namespaces in the cluster.
 
 ##2. What DaemonSets exist in the kube-system namespace?
+- **Command:**
 ```bash
 kubectl get daemonsets -n kube-system
 #This command lists all DaemonSets in the kube-system namespace.
 
 ##3. What is the image used by the Pod deployed by the kube-proxy DaemonSet?
+- **Command:**
 ```bash
 kubectl get daemonset kube-proxy -n kube-system -o=jsonpath='{.spec.template.spec.containers[0].image}'
 #This command retrieves the image used by the container in the kube-proxy DaemonSet, which is crucial for understanding the version of the proxy running in the cluster.
@@ -24,6 +26,7 @@ Name: elasticsearch
 Namespace: kube-system
 Image: k8s.gcr.io/fluentd-elasticsearch:1.20
 YAML Configuration
+- **Command:**
 ```bash
 apiVersion: apps/v1
 kind: DaemonSet
@@ -55,6 +58,7 @@ spec:
 
 ##5-Deploy a Pod named nginx-pod using the nginx:alpine image with the label tier=backend
 YAML Configuration
+- **Command:**
 ```bash
 apiVersion: v1
 kind: Pod
@@ -70,6 +74,7 @@ spec:
 
 ##6- Deploy a test Pod using the nginx:alpine image
 YAML Configuration
+- **Command:**
 ```bash
 apiVersion: v1
 kind: Pod
@@ -83,6 +88,7 @@ spec:
 
 ##7. Create a Service backend-service to expose the backend application within the cluster on port 80
 YAML Configuration
+- **Command:**
 ```bash
 apiVersion: v1
 kind: Service
@@ -98,6 +104,7 @@ spec:
 #This service exposes the nginx-pod (which has the label tier=backend) on port 80 within the cluster.
 
 ##8. Try to curl the backend-service from the test-pod. What is the response?
+- **Command:**
 ```bash
 kubectl exec -it test-pod -- curl backend-service
 #You should receive the default nginx welcome page HTML if everything is set up correctly.
@@ -105,6 +112,7 @@ kubectl exec -it test-pod -- curl backend-service
 
 #9. Deploy a Deployment named web-app using the nginx image with 2 replicas
 YAML Configuration
+- **Command:**
 ```bash
 apiVersion: apps/v1
 kind: Deployment
@@ -126,26 +134,32 @@ spec:
 #This creates a deployment named web-app with 2 replicas, each running the nginx image.
 
 ##10. Expose the web-app Deployment as a Service web-app-service on port 80 and NodePort 30082
+- **Command:**
 ```bash
 kubectl expose deployment web-app --type=NodePort --port=80 --target-port=80 --name=web-app-service
 #Edit Service to Specify NodePort
+- **Command:**
 ```bash
 kubectl edit svc web-app-service
 #Add the following under ports:
+- **Command:**
 ```bash
 nodePort: 30082
 
 ##11. Access the Web App from the Node
+- **Command:**
 ```bash
 http://<node-ip>:30082
 # Replace <node-ip> with the actual IP of one of your nodes to access the web app.
 
 ##12. How many static pods exist in this cluster in all namespaces?
+- **Command:**
 ```bash
 kubectl get pods --all-namespaces --field-selector=status.phase=Running
 #static pods are managed directly by the kubelet on each node and aren’t part of a Deployment or DaemonSet. You can identify them by their unique names.
 
 ##13. On which nodes are the static pods created currently?
+- **Command:**
 ```bash
 kubectl get pods --all-namespaces -o wide
 #This command lists all running pods across all namespaces, along with the node they are running on. Static pods are usually associated with system components and run on master nodes.
@@ -161,6 +175,7 @@ kubectl get pods --all-namespaces -o wide
 ## How to Apply
 
 To apply these configurations, use the following command:
+- **Command:**
 
 ```bash
 kubectl apply -f <filename>.yaml
