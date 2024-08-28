@@ -14,7 +14,7 @@ This repository contains Kubernetes YAML files, commands, and detailed explanati
 kubectl get daemonsets -n kube-system
 #This command lists all DaemonSets in the kube-system namespace.
 
-##3. What is the image used by the Pod deployed by the kube-proxy DaemonSet?
+###3. What is the image used by the Pod deployed by the kube-proxy DaemonSet?
 - **Command:**
 ```bash
 kubectl get daemonset kube-proxy -n kube-system -o=jsonpath='{.spec.template.spec.containers[0].image}'
